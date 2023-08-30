@@ -4,29 +4,19 @@ import { octokit } from './octokit';
 const getAllIssues = async (
   owner: string,
   repo: string,
-  state: 'open',
+  page: number,
 ): Promise<Endpoints['GET /repos/{owner}/{repo}/issues']['response']['data']> => {
-  let issues: Endpoints['GET /repos/{owner}/{repo}/issues']['response']['data'] = [];
-  let page = 1;
+  const result = await octokit.issues.listForRepo({
+    owner,
+    repo,
+    state: 'open',
+    sort: 'comments',
+    direction: 'desc',
+    per_page: 100,
+    page,
+  });
 
-  while (true) {
-    const result = await octokit.issues.listForRepo({
-      owner,
-      repo,
-      state: 'open',
-      sort: 'comments',
-      direction: 'desc',
-      per_page: 100,
-      page,
-    });
-
-    if (result.data.length === 0) break;
-
-    issues = [...issues, ...result.data];
-    page++;
-  }
-
-  return issues;
+  return result.data;
 };
 
 export default getAllIssues;
