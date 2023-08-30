@@ -1,6 +1,6 @@
 export const colors = {
   primary: '#5C4B99',
-  hover: '#3D246C',
+  hover: '#F5F5F5',
   white: '#fff',
   black: '#000',
 };
