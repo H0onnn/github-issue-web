@@ -1,7 +1,7 @@
 import { Endpoints } from '@octokit/types';
 import { octokit } from './octokit';
 
-const getAllIssues = async (
+export const getAllIssues = async (
   owner: string,
   repo: string,
   page: number,
@@ -19,4 +19,16 @@ const getAllIssues = async (
   return result.data;
 };
 
-export default getAllIssues;
+export const getIssueById = async (
+  owner: string,
+  repo: string,
+  issue_number: number,
+): Promise<Endpoints['GET /repos/{owner}/{repo}/issues/{issue_number}']['response']['data']> => {
+  const result = await octokit.issues.get({
+    owner,
+    repo,
+    issue_number,
+  });
+  console.log('API Response:', result);
+  return result.data;
+};
