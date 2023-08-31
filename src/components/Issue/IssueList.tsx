@@ -2,8 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useIssueData } from '../../hooks/useIssueData';
 import IssueItem from './IssueItem';
 import AdBanner from '../AdBanner/AdBanner';
-import { styled } from 'styled-components';
-import { FaSpinner } from 'react-icons/fa';
+import LoadingComponent from '../UI/Loading/LoadingComponent';
 
 const IssueList: React.FC = () => {
   const { issues, loading, loadMoreIssues, hasMore } = useIssueData();
@@ -40,36 +39,9 @@ const IssueList: React.FC = () => {
           <IssueItem issue={issue} />
         </div>
       ))}
-      {loading && (
-        <LoadingContainer>
-          <FaSpinner className="spinner" />
-          <span>Loading...</span>
-        </LoadingContainer>
-      )}
+      {loading && <LoadingComponent />}
     </div>
   );
 };
 
 export default IssueList;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  font-size: 16px;
-
-  .spinner {
-    margin-right: 10px;
-    animation: spin 1s infinite linear;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
