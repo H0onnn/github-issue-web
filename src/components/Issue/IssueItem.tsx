@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../constants/colors';
 import { Endpoints } from '@octokit/types';
+import { Link } from 'react-router-dom';
 
 type IssueItemProps = {
   issue: Endpoints['GET /repos/{owner}/{repo}/issues']['response']['data'][number];
@@ -8,21 +9,23 @@ type IssueItemProps = {
 
 const IssueItem = ({ issue }: IssueItemProps) => {
   return (
-    <IssueLayout>
-      <IssueHeaderContainer>
-        <IssueTitleContainer>
-          <span>#{issue.number}</span>
-          <span>{issue.title}</span>
-        </IssueTitleContainer>
-        <RightContent>
-          <span>코멘트: {issue.comments}</span>
-        </RightContent>
-      </IssueHeaderContainer>
-      <IssueDetailsContainer>
-        <span>작성자: {issue.user?.login}</span>
-        <span>작성일: {new Date(issue.created_at).toLocaleDateString('ko-KR')}</span>
-      </IssueDetailsContainer>
-    </IssueLayout>
+    <Link to={`/issue/${issue.number}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <IssueLayout>
+        <IssueHeaderContainer>
+          <IssueTitleContainer>
+            <span>#{issue.number}</span>
+            <span>{issue.title}</span>
+          </IssueTitleContainer>
+          <RightContent>
+            <span>코멘트: {issue.comments}</span>
+          </RightContent>
+        </IssueHeaderContainer>
+        <IssueDetailsContainer>
+          <span>작성자: {issue.user?.login}</span>
+          <span>작성일: {new Date(issue.created_at).toLocaleDateString('ko-KR')}</span>
+        </IssueDetailsContainer>
+      </IssueLayout>
+    </Link>
   );
 };
 
@@ -68,7 +71,7 @@ const IssueTitleContainer = styled.div`
 `;
 
 const IssueDetailsContainer = styled.div`
-  font-size: 0.8rem;
+  font-size: 14px;
   margin-top: 5px;
   display: flex;
   gap: 10px;
