@@ -1,13 +1,21 @@
 import useRepoData from '../hooks/useRepoData';
 import { styled } from 'styled-components';
 import { colors } from '../constants/colors';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const repoData = useRepoData();
+  const navigate = useNavigate();
 
   return (
     <HeaderLayout>
-      <HeaderTitle>{repoData ? `${repoData.owner.login}/${repoData.name}` : null}</HeaderTitle>
+      <HeaderTitle
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        {repoData ? `${repoData.owner.login} / ${repoData.name}` : null}
+      </HeaderTitle>
     </HeaderLayout>
   );
 };
@@ -32,4 +40,5 @@ const HeaderTitle = styled.h1`
   color: ${colors.white};
   font-weight: bold;
   text-align: center;
+  cursor: pointer;
 `;
