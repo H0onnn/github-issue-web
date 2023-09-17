@@ -6,7 +6,7 @@ import AdBanner from '../AdBanner/AdBanner';
 import LoadingComponent from '../UI/Loading/LoadingComponent';
 
 const IssueList: React.FC = () => {
-  const { issues, loading, loadMoreIssues, hasMore } = useIssueData();
+  const { issues, moreDataLoading, loadMoreIssues, hasMore } = useIssueData();
 
   const fetchMoreData = useCallback(() => {
     if (hasMore) {
@@ -17,7 +17,7 @@ const IssueList: React.FC = () => {
   const [isFetching, observer] = useInfiniteScroll(fetchMoreData);
 
   const lastIssueRef = (node: HTMLDivElement) => {
-    if (loading) return;
+    if (moreDataLoading) return;
     if (observer && node) observer.observe(node);
   };
 
@@ -29,7 +29,7 @@ const IssueList: React.FC = () => {
           <IssueItem issue={issue} />
         </div>
       ))}
-      {(loading || isFetching) && <LoadingComponent />}
+      {(moreDataLoading || isFetching) && <LoadingComponent />}
     </div>
   );
 };
