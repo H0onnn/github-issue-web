@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 const useLoading = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loadingMessage, setLoadingMessage] = useState<string>('Loading...');
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
+  const [moreDataLoading, setMoreDataLoading] = useState<boolean>(false);
 
-  return { loading, setLoading, loadingMessage, setLoadingMessage };
+  return { initialLoading, setInitialLoading, moreDataLoading, setMoreDataLoading };
 };
 
 export default useLoading;
