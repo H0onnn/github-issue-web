@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+import { colors } from '../../constants/colors';
 import convertDateToKorean from '../../utils/covertDate';
+import { AiOutlineComment } from 'react-icons/ai';
+import { CgProfile } from 'react-icons/cg';
 
 type AuthorProps = {
   avatar_url: string;
@@ -17,12 +20,19 @@ const IssueAuthor = ({ author, created_at, commentCount }: IssueAuthorProps) => 
 
   return (
     <AuthorLayout>
-      <AuthorImage src={author.avatar_url} alt={author.login} />
+      {author.avatar_url ? (
+        <AuthorImage src={author.avatar_url} alt={author.login} />
+      ) : (
+        <CgProfile></CgProfile>
+      )}
       <AuthorInfo>
         <AuthorName>{author.login}</AuthorName>
         <CreationDate>{convertDateToKorean(created_at)}</CreationDate>
       </AuthorInfo>
-      <CommentCount>코멘트: {commentCount}</CommentCount>
+      <CommentCountWrap>
+        <AiOutlineComment size={28}></AiOutlineComment>
+        <span>{commentCount}</span>
+      </CommentCountWrap>
     </AuthorLayout>
   );
 };
@@ -54,10 +64,13 @@ const AuthorName = styled.span`
 
 const CreationDate = styled.span`
   font-size: 15px;
-  color: #666;
+  color: ${colors.gray};
 `;
 
-const CommentCount = styled.span`
+const CommentCountWrap = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-left: auto;
   font-weight: bold;
 `;
