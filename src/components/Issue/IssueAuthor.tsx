@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import convertDateToKorean from '../../utils/covertDate';
 
 type AuthorProps = {
   avatar_url: string;
@@ -19,7 +20,7 @@ const IssueAuthor = ({ author, created_at, commentCount }: IssueAuthorProps) => 
       <AuthorImage src={author.avatar_url} alt={author.login} />
       <AuthorInfo>
         <AuthorName>{author.login}</AuthorName>
-        <CreationDate>{new Date(created_at).toLocaleDateString()}</CreationDate>
+        <CreationDate>{convertDateToKorean(created_at)}</CreationDate>
       </AuthorInfo>
       <CommentCount>코멘트: {commentCount}</CommentCount>
     </AuthorLayout>
