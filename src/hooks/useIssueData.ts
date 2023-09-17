@@ -13,11 +13,16 @@ export const useIssueData = () => {
   >(null);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const { loading, setLoading } = useLoading();
+  const { initialLoading, setInitialLoading, moreDataLoading, setMoreDataLoading } = useLoading();
   const { error, setError, isError, setIsError } = useError();
 
   const loadMoreIssues = async () => {
-    setLoading(true);
+    if (page === 1) {
+      setInitialLoading(true);
+    } else {
+      setMoreDataLoading(true);
+    }
+
     try {
       const data = await getAllIssues('facebook', 'react', page);
       if (data.length === 0) {
@@ -34,12 +39,17 @@ export const useIssueData = () => {
         code: error.response?.status,
       });
     } finally {
-      setLoading(false);
+      if (page === 1) {
+        setInitialLoading(false);
+      } else {
+        setMoreDataLoading(false);
+      }
     }
   };
 
   const loadIssueById = async (id: number) => {
-    setLoading(true);
+    setInitialLoading(true);
+
     try {
       const data = await getIssueById('facebook', 'react', id);
       setIssue(data || null);
@@ -53,7 +63,7 @@ export const useIssueData = () => {
       });
       return null;
     } finally {
-      setLoading(false);
+      setInitialLoading(false);
     }
   };
 
@@ -63,7 +73,8 @@ export const useIssueData = () => {
 
   return {
     issues,
-    loading,
+    initialLoading,
+    moreDataLoading,
     loadMoreIssues,
     hasMore,
     isError,
