@@ -1,5 +1,6 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useIssueData } from '../../hooks/useIssueData';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import IssueItem from './IssueItem';
 import AdBanner from '../AdBanner/AdBanner';
 import LoadingComponent from '../UI/Loading/LoadingComponent';
@@ -7,29 +8,18 @@ import LoadingComponent from '../UI/Loading/LoadingComponent';
 const IssueList: React.FC = () => {
   const { issues, loading, loadMoreIssues, hasMore } = useIssueData();
 
-  const observerRef = useRef<IntersectionObserver | null>(null);
+  const fetchMoreData = useCallback(() => {
+    if (hasMore) {
+      loadMoreIssues();
+    }
+  }, [hasMore, loadMoreIssues]);
 
-  const lastIssueRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (loading) return;
-      if (observerRef.current) observerRef.current.disconnect();
+  const [isFetching, observer] = useInfiniteScroll(fetchMoreData);
 
-      observerRef.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting && hasMore) {
-          loadMoreIssues();
-        }
-      });
-
-      if (node) observerRef.current.observe(node);
-    },
-    [loading, hasMore, loadMoreIssues],
-  );
-
-  useEffect(() => {
-    return () => {
-      if (observerRef.current) observerRef.current.disconnect();
-    };
-  }, []);
+  const lastIssueRef = (node: HTMLDivElement) => {
+    if (loading) return;
+    if (observer && node) observer.observe(node);
+  };
 
   return (
     <div>
@@ -39,7 +29,7 @@ const IssueList: React.FC = () => {
           <IssueItem issue={issue} />
         </div>
       ))}
-      {loading && <LoadingComponent />}
+      {(loading || isFetching) && <LoadingComponent />}
     </div>
   );
 };

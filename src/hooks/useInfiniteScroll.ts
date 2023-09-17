@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-function useInfiniteScroll(callback: () => void) {
+const useInfiniteScroll = (callback: () => void): [boolean, IntersectionObserver | null] => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -20,9 +20,9 @@ function useInfiniteScroll(callback: () => void) {
 
     callback();
     setIsFetching(false);
-  }, [isFetching, callback]);
+  }, [isFetching]);
 
   return [isFetching, observer.current];
-}
+};
 
 export default useInfiniteScroll;
