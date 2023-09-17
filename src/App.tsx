@@ -6,7 +6,7 @@ import { useIssueData } from './hooks/useIssueData';
 import LoadingComponent from './components/UI/Loading/LoadingComponent';
 
 const App = () => {
-  const { error, isError, loading } = useIssueData();
+  const { error, isError, initialLoading } = useIssueData();
 
   return (
     <HashRouter>
@@ -15,7 +15,7 @@ const App = () => {
           <ErrorPage message={error?.message} code={error?.code} />
         ) : (
           <>
-            {loading && <LoadingComponent />}
+            {initialLoading && <LoadingComponent />}
             <AppRoutes />
           </>
         )}
