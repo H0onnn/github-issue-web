@@ -2,6 +2,7 @@ import useRepoData from '../hooks/useRepoData';
 import { styled } from 'styled-components';
 import { colors } from '../constants/colors';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/UI/Button';
 
 const Header = () => {
   const repoData = useRepoData();
@@ -9,13 +10,13 @@ const Header = () => {
 
   return (
     <HeaderLayout>
-      <HeaderTitle
-        onClick={() => {
-          navigate('/');
-        }}
-      >
-        {repoData ? `${repoData.owner.login} / ${repoData.name}` : null}
-      </HeaderTitle>
+      <div style={{ padding: '20px', width: '100px' }}></div>
+
+      <HeaderTitle>{repoData ? `${repoData.owner.login} / ${repoData.name}` : null}</HeaderTitle>
+
+      <HeaderButton>
+        <Button onClick={() => navigate('/')}>Go Back</Button>
+      </HeaderButton>
     </HeaderLayout>
   );
 };
@@ -24,7 +25,7 @@ export default Header;
 
 const HeaderLayout = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100px;
@@ -40,5 +41,14 @@ const HeaderTitle = styled.h1`
   color: ${colors.white};
   font-weight: bold;
   text-align: center;
-  cursor: pointer;
+`;
+
+const HeaderButton = styled.div`
+  width: 100px;
+  padding: 20px;
+  text-align: center;
+
+  & > button:hover {
+    color: ${colors.primary};
+  }
 `;
