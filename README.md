@@ -167,9 +167,12 @@ src/
 │   │       ├── Error
 │   │       │   └── ErrorComponent.tsx
 │   │       └── Loading
-│   │           └── LoadingComponent.tsx
+│   │           ├── LoadingComponent.tsx
+│   │           ├── SkeletonComponent.tsx
+│   │           └── SkeletonItem.tsx
 │   ├── constants
-│   │   └── colors.ts
+│   │   ├── colors.ts
+│   │   └── style.ts
 │   ├── hooks
 │   │   ├── useError.ts
 │   │   ├── useInfiniteScroll.ts
@@ -185,7 +188,9 @@ src/
 │   │   ├── ErrorPage.tsx
 │   │   ├── IssueDetailPage.tsx
 │   │   └── IssueListPage.tsx
-│   └── routes.tsx
+│   ├── routes.tsx
+│   └── utils
+│       └── covertDate.ts
 ├── tsconfig.json
 └── webpack.config.js
 ```
