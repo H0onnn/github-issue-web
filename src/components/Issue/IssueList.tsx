@@ -3,7 +3,7 @@ import { useIssueData } from '../../hooks/useIssueData';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import IssueItem from './IssueItem';
 import AdBanner from '../AdBanner/AdBanner';
-import LoadingComponent from '../UI/Loading/LoadingComponent';
+import SkeletonComponent from '../UI/Loading/SkeletonComponent';
 
 const IssueList: React.FC = () => {
   const { issues, moreDataLoading, loadMoreIssues, hasMore } = useIssueData();
@@ -29,7 +29,7 @@ const IssueList: React.FC = () => {
           <IssueItem issue={issue} />
         </div>
       ))}
-      {(moreDataLoading || isFetching) && <LoadingComponent />}
+      {moreDataLoading && <SkeletonComponent />}
     </div>
   );
 };
